@@ -18,14 +18,14 @@ class App extends Component {
 		food: null,
 		loadingFood: false,
 		ingredientsModalOpen: false
-	}
+	};
 	openFoodModal = ({meal, day}) => {
 		this.setState(() => ({
 			foodModalOpen: true,
 			meal,
 			day,
 		}))
-	}
+	};
 	closeFoodModal = () => {
 		this.setState(() => ({
 			foodModalOpen: false,
@@ -33,40 +33,40 @@ class App extends Component {
 			day: null,
 			food: null,
 		}))
-	}
+	};
 	searchFood = (e) => {
 		if (!this.input.value) {
 			return
 		}
 
-		e.preventDefault()
+		e.preventDefault();
 
-		this.setState(() => ({loadingFood: true}))
+		this.setState(() => ({loadingFood: true}));
 
 		fetchRecipes(this.input.value)
 			.then((food) => this.setState(() => ({
 				food,
 				loadingFood: false,
 			})))
-	}
+	};
 
-	openIngredientsModal = () => this.setState(() => ({ingredientsModalOpen: true}))
-	closeIngredientsModal = () => this.setState(() => ({ingredientsModalOpen: false}))
+	openIngredientsModal = () => this.setState(() => ({ingredientsModalOpen: true}));
+	closeIngredientsModal = () => this.setState(() => ({ingredientsModalOpen: false}));
 	generateShoppingList = () => {
 		return this.props.calendar.reduce((result, {meals}) => {
-			const {breakfast, lunch, dinner} = meals
-			breakfast && result.push(breakfast)
-			lunch && result.push(lunch)
-			dinner && result.push(dinner)
+			const {breakfast, lunch, dinner} = meals;
+			breakfast && result.push(breakfast);
+			lunch && result.push(lunch);
+			dinner && result.push(dinner);
 			return result
 		}, [])
 			.reduce((ings, {ingredientLines}) => ings.concat(ingredientLines), [])
-	}
+	};
 
 	render() {
-		const {foodModalOpen, loadingFood, food, ingredientsModalOpen} = this.state
-		const {calendar, selectRecipe, remove} = this.props
-		const mealOrder = ['breakfast', 'lunch', 'dinner']
+		const {foodModalOpen, loadingFood, food, ingredientsModalOpen} = this.state;
+		const {calendar, selectRecipe, remove} = this.props;
+		const mealOrder = ['breakfast', 'lunch', 'dinner'];
 
 
 		return (
@@ -144,7 +144,7 @@ class App extends Component {
 									<FoodList
 										food={food}
 										onSelect={(recipe) => {
-											selectRecipe({recipe, day: this.state.day, meal: this.state.meal})
+											selectRecipe({recipe, day: this.state.day, meal: this.state.meal});
 											this.closeFoodModal()
 										}}
 									/>)}
@@ -168,7 +168,7 @@ class App extends Component {
 }
 
 function mapStateToProps({food, calendar}) {
-	const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+	const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 	return {
 		calendar: dayOrder.map((day) => ({
@@ -176,7 +176,7 @@ function mapStateToProps({food, calendar}) {
 			meals: Object.keys(calendar[day]).reduce((meals, meal) => {
 				meals[meal] = calendar[day][meal]
 					? food[calendar[day][meal]]
-					: null
+					: null;
 
 				return meals
 			}, {})
